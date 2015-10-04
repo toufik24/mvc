@@ -12,4 +12,14 @@ class Controller {
 		require_once "../app/models/" . $model . ".php";
 		return new $model();
 	}
+
+	/**
+	 * Load a View
+	 * @param string $view The filename of the view.
+	 * @param mixed $data The data the controller wants to push to the View.
+	 * @return void
+	 */
+	public function view($view, $data = []) {
+		require_once "../app/views/" . $view . ".php";
+	}
 }

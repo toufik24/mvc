@@ -13,6 +13,6 @@ class Home extends Controller {
 		$user = $this->model("User");
 		$user->name = $name;
 
-		var_dump($user);
+		$this->view("home/index", ["user" => $user]);
 	}
 }
