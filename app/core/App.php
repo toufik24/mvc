@@ -3,7 +3,7 @@
 /** Here the application stores anything about its instance. */
 class App {
 	
-	/** @var string $controller The default controller. */
+	/** @var string|Controller $controller The default controller as a string and later the Controller itself as an object. */
 	protected $controller = "home";
 
 	/** @var string $method The default controller's message. */
@@ -14,11 +14,38 @@ class App {
 
 	/**
 	 * Constructor for App
-	 * At the moment it does not do anything but instantiating application.
+	 * It'll parse the URL, initiate the Controller class that was given and run the method with the given parameters.
 	 * @return void
 	 */
 	public function __construct() {
 		$url = $this->parseUrl();
+
+		/**
+		 * Change the controller from default if the Controller Class does exist.
+		 * Then load the controller which is named at the property $controller.
+		 * Finally, set $this->controller as the new Controller.
+		 */
+		if (file_exists("../app/controllers/" . $url[0] . ".php")) {
+			$this->controller = $url[0];
+			unset($url[0]);
+		}
+		require_once "../app/controllers/" . $this->controller . ".php";
+		$this->controller = new $this->controller;
+
+
+		/** If the method exists in the Controller object, change the property $method. Else, just leave it "index". */
+		if(isset($url[1])) {
+			if (method_exists($this->controller, $url[1])) {
+				$this->method = $url[1];
+				unset($url[1]);
+			}
+		}
+
+		/** Rebase the indexes and throw it into $params. */
+		$this->params = $url ? array_values($url) : [];
+
+		/** Call the method */
+		call_user_func_array([$this->controller, $this->method], $this->params);
 	}
 
 	/**
