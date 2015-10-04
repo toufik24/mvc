@@ -5,11 +5,14 @@ class Home extends Controller {
 
 	/**
 	 * The default method to call.
-	 * Right now it just welcomes the user by echoing the first parameter.
+	 * It creates an Model\User, sets its User::name to the param and dumps the object.
 	 * @param string $name The users name.
 	 * @return void
 	 */
 	public function index($name = "") {
-		echo "Hej ", $name;
+		$user = $this->model("User");
+		$user->name = $name;
+
+		var_dump($user);
 	}
 }
