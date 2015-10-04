@@ -1,0 +1,1 @@
+<?= $data["username"] ?> mit der Email-Adresse <?= $data["email"] ?> wurde erfolgreich mit der ID: <?= $data["id"] ?> angelegt.
