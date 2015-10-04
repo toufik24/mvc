@@ -15,4 +15,17 @@ class Home extends Controller {
 
 		$this->view("home/index", ["user" => $user]);
 	}
+
+	/**
+	 * Create a new user.
+	 * @params string $username The username.
+	 * @params string $email The email address.
+	 */
+	public function create($username = "", $email = "") {
+		$Query = json_decode(User::create([
+			"username" => $username,
+			"email" => $email
+		]));
+		$this->view("home/create", ["username" => $username, "email" => $email, "id" => $Query->id]);
+	}
 }
